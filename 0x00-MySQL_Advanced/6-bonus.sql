@@ -21,3 +21,4 @@ BEGIN
     -- Add the correction for the student
     INSERT INTO corrections (user_id, project_id, score)
     VALUES (user_id, project_id, score);
+END;

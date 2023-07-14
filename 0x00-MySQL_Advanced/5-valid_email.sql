@@ -1,6 +1,7 @@
 -- Create trigger to reset valid_email when email has changed
+DROP TRIGGER IF EXISTS validate_email;
 DELIMITER $$
-CREATE TRIGGER IF NOT EXIST validate_email
+CREATE TRIGGER validate_email
 BEFORE UPDATE ON users
 FOR EACH ROW
 BEGIN

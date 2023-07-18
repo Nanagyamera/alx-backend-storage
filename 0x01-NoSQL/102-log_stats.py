@@ -2,9 +2,8 @@
 """
 Task 15
 """
-
-
 from pymongo import MongoClient
+
 
 # Establish a connection to the MongoDB server
 client = MongoClient('mongodb://localhost:27017')

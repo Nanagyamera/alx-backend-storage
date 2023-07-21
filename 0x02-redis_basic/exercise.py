@@ -11,10 +11,6 @@ redis_store = redis.Redis()
 
 
 def count_calls(method: Callable) -> Callable:
-    """
-    Decorator to count how many times methods of the Cache 
-    class are called.
-    """
     @wraps(method)
     def invoker(self, *args, **kwargs) -> Any:
         if isinstance(self._redis, redis.Redis):

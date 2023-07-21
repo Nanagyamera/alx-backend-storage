@@ -13,7 +13,8 @@ redis_store = redis.Redis()
 def count_calls(method: Callable) -> Callable:
     @wraps(method)
     def invoker(self, *args, **kwargs) -> Any:
-        redis_store.incr(method.__qualname__)
+        redis_key = f"count:{method.__qualname__}"
+        redis_store.incr(redis_key)
         return method(self, *args, **kwargs)
 
     return invoker
@@ -61,7 +62,11 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, float]:
+    def get(
+            self,
+            key: str,
+            fn: Callable = None,
+            ) -> Union[str, bytes, int, float]:
         value = self._redis.get(key)
         return fn(value) if fn else value
 

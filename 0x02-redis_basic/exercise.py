@@ -24,11 +24,12 @@ def call_history(method: Callable) -> Callable:
     def invoker(self, *args, **kwargs) -> Any:
         in_key = f"{method.__qualname__}:inputs"
         out_key = f"{method.__qualname__}:outputs"
-        redis_store.rpush(in_key, str(args))
+        if isinstance(self._redis, redis.Redis):
+            self._redis.rpush(in_key, str(args))
         output = method(self, *args, **kwargs)
-        redis_store.rpush(out_key, output)
+        if isinstance(self._redis, redis.Redis):
+            self._redis.rpush(out_key, output)
         return output
-
     return invoker
 
 

@@ -23,10 +23,16 @@ def cache_with_expiration(method: Callable) -> Callable:
 
     return wrapper
 
+
 @cache_with_expiration
 def get_page(url: str) -> str:
+    """
+    Returns the content of a URL after caching the request's response,
+    and tracking the request
+    """
     response = requests.get(url)
     return response.text
+
 
 # Set up Redis client
 redis_client = redis.Redis()

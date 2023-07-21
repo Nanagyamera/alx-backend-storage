@@ -13,10 +13,9 @@ redis_store = redis.Redis()
 def count_calls(method: Callable) -> Callable:
     @wraps(method)
     def invoker(self, *args, **kwargs) -> Any:
-        redis_key = f"count:{method.__qualname__}"
-        redis_store.incr(redis_key)
+        if isinstance(self._redis, redis.Redis):
+            self._redis.incr(method.__qualname__)
         return method(self, *args, **kwargs)
-
     return invoker
 
 
